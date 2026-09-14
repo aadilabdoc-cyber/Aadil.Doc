@@ -1,0 +1,51 @@
+.PhoneInput {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--color-weathered-silver);
+  padding-bottom: 0.5rem;
+  transition: border-color 0.15s ease;
+}
+
+.PhoneInput--focus {
+  border-color: var(--color-aged-ivory);
+}
+
+.PhoneInputCountry {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.PhoneInputCountrySelect {
+  background: transparent;
+  color: var(--color-aged-ivory);
+  outline: none;
+}
+
+.PhoneInputCountrySelect option {
+  color: var(--color-obsidian);
+}
+
+.PhoneInputCountrySelectArrow {
+  color: var(--color-weathered-silver);
+  opacity: 1;
+}
+
+.PhoneInputCountryIcon {
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.PhoneInputInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-aged-ivory);
+  font: inherit;
+}
+
+.PhoneInputInput::placeholder {
+  color: var(--color-weathered-silver);
+}
