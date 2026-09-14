@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { Project } from "@/types/project";
 import { categoryLabel, projectHref } from "@/lib/projects";
 
-const AUTOPLAY_MS = 1000;
+const AUTOPLAY_MS = 3000;
 
 export default function HeroCarousel({ slides }: { slides: Project[] }) {
   const [index, setIndex] = useState(0);
