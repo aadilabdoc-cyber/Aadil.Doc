@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Google Apps Script source — runs outside this project, not bundled.
+    "scripts/**",
   ]),
 ]);
 

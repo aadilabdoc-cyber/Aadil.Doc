@@ -4,11 +4,10 @@ export type NavItem = {
 };
 
 export const nav: NavItem[] = [
-  { label: "Home", href: "/" },
-  { label: "Commercial Works", href: "/commercial-works" },
   { label: "Personal Project", href: "/personal-project" },
-  { label: "Archives", href: "/archives" },
-  { label: "Contacts", href: "/contacts" },
+  { label: "Commissioned", href: "/commercial-works" },
+  { label: "Archive", href: "/archives" },
+  { label: "Contact", href: "/contacts" },
 ];
 
 export const site = {

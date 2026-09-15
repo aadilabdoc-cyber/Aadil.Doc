@@ -87,6 +87,8 @@ export default function ContactForm() {
   const [values, setValues] = useState<FormValues>(initialValues);
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const formId = useId();
 
   const handleChange =
@@ -111,13 +113,34 @@ export default function ContactForm() {
     setValues((prev) => ({ ...prev, phone: value ?? "" }));
   };
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const nextErrors = validate(values);
-    console.log(values);
     setErrors(nextErrors);
-    if (Object.keys(nextErrors).length === 0) {
+    if (Object.keys(nextErrors).length > 0) return;
+
+    setSubmitError(null);
+    setSubmitting(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      const result = (await response.json()) as { success: boolean; error?: string };
+
+      if (!response.ok || !result.success) {
+        setSubmitError(
+          result.error ?? "Something went wrong sending your enquiry. Please try again.",
+        );
+        return;
+      }
+
       setSubmitted(true);
+    } catch {
+      setSubmitError("Something went wrong sending your enquiry. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -131,8 +154,8 @@ export default function ContactForm() {
           Thank you, {values.name.split(" ")[0]}.
         </p>
         <p className="mt-3">
-          This contact form is a frontend prototype — your enquiry was not sent
-          anywhere. To reach {site.photographer} directly, email{" "}
+          Your enquiry has been sent — {site.photographer} will get back to
+          you shortly. You can also reach out directly at{" "}
           <a
             href={`mailto:${site.email}`}
             className="text-aged-ivory underline decoration-weathered-silver underline-offset-4"
@@ -416,17 +439,19 @@ export default function ContactForm() {
         </div>
       </div>
 
+      {submitError && (
+        <p role="alert" className="text-xs text-rose-600">
+          {submitError}
+        </p>
+      )}
+
       <button
         type="submit"
-        className="self-start border border-aged-ivory px-6 py-3 text-xs uppercase tracking-[0.2em] text-aged-ivory transition-colors hover:bg-aged-ivory hover:text-obsidian"
+        disabled={submitting}
+        className="self-start border border-aged-ivory px-6 py-3 text-xs uppercase tracking-[0.2em] text-aged-ivory transition-colors hover:bg-aged-ivory hover:text-obsidian disabled:cursor-not-allowed disabled:opacity-50"
       >
-        Send Enquiry
+        {submitting ? "Sending…" : "Send Enquiry"}
       </button>
-
-      <p className="text-xs text-weathered-silver">
-        This is a frontend prototype. Submitting this form does not send an
-        email.
-      </p>
     </form>
   );
 }

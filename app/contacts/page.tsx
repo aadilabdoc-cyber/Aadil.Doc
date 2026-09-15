@@ -5,14 +5,14 @@ import ContactForm from "@/components/ContactForm";
 import { site } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Contacts",
+  title: "Contact",
   description: `Get in touch with ${site.photographer} — ${site.name}.`,
 };
 
 export default function ContactsPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-20 sm:px-6 lg:px-10">
-      <SectionHeading eyebrow="Get in Touch" title="Contacts" />
+      <SectionHeading eyebrow="Get in Touch" title="Contact" />
       <p className="mt-6 max-w-xl text-sm leading-relaxed text-aged-silver">
         For commissions, print inquiries, or simply to say hello —{" "}
         {site.photographer} reads every message.

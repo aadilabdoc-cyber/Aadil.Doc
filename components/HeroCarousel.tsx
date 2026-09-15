@@ -1,12 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Project } from "@/types/project";
-import { categoryLabel, projectHref } from "@/lib/projects";
 
-const AUTOPLAY_MS = 3000;
+const AUTOPLAY_MS = 6000;
 
 export default function HeroCarousel({ slides }: { slides: Project[] }) {
   const [index, setIndex] = useState(0);
@@ -50,7 +48,7 @@ export default function HeroCarousel({ slides }: { slides: Project[] }) {
     <section
       aria-roledescription="carousel"
       aria-label="Featured work"
-      className="relative h-[85vh] min-h-[520px] w-full overflow-hidden bg-graphite"
+      className="relative h-[85vh] min-h-130 w-full overflow-hidden bg-graphite"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
@@ -84,23 +82,6 @@ export default function HeroCarousel({ slides }: { slides: Project[] }) {
             sizes="100vw"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-linear-to-t from-deep-shadow/85 via-deep-shadow/10 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 px-4 pb-16 sm:px-6 sm:pb-20 lg:px-10">
-            <div className="mx-auto max-w-6xl">
-              <p className="text-xs uppercase tracking-[0.2em] text-aged-silver">
-                {categoryLabel[project.category]} — {project.year}
-              </p>
-              <h1 className="mt-3 max-w-xl text-3xl font-bold text-aged-ivory sm:text-4xl lg:text-5xl">
-                <Link
-                  href={projectHref(project)}
-                  className="transition-colors hover:text-paper"
-                  tabIndex={i === index ? 0 : -1}
-                >
-                  {project.title}
-                </Link>
-              </h1>
-            </div>
-          </div>
         </div>
       ))}
 
@@ -120,27 +101,6 @@ export default function HeroCarousel({ slides }: { slides: Project[] }) {
       >
         &#8250;
       </button>
-
-      <div className="absolute bottom-6 right-4 flex items-center gap-3 text-xs text-aged-silver sm:right-10">
-        <span>
-          {String(index + 1).padStart(2, "0")} /{" "}
-          {String(count).padStart(2, "0")}
-        </span>
-        <div className="flex gap-1.5">
-          {slides.map((project, i) => (
-            <button
-              key={project.slug}
-              type="button"
-              onClick={() => goTo(i)}
-              aria-label={`Go to slide ${i + 1}`}
-              aria-current={i === index}
-              className={`h-1.5 w-6 transition-colors ${
-                i === index ? "bg-aged-ivory" : "bg-weathered-silver/50"
-              }`}
-            />
-          ))}
-        </div>
-      </div>
     </section>
   );
 }

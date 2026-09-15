@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
-import { nav, site } from "@/data/site";
+import { site } from "@/data/site";
+import NavList from "./NavList";
 
 function subscribe() {
   return () => {};
@@ -18,11 +18,9 @@ function getServerSnapshot() {
 export default function MobileMenu({
   open,
   onClose,
-  pathname,
 }: {
   open: boolean;
   onClose: () => void;
-  pathname: string;
 }) {
   const mounted = useSyncExternalStore(subscribe, getClientSnapshot, getServerSnapshot);
 
@@ -34,49 +32,52 @@ export default function MobileMenu({
       aria-modal="true"
       aria-label="Site navigation"
       aria-hidden={!open}
-      className={`fixed inset-0 z-50 bg-obsidian transition-opacity duration-300 md:hidden ${
+      className={`fixed inset-0 z-50 bg-obsidian transition-opacity duration-300 ${
         open ? "opacity-100" : "pointer-events-none opacity-0"
       }`}
     >
-      <div className="flex h-16 items-center justify-between px-4 sm:px-6">
-        <span className="text-sm tracking-[0.2em] text-aged-ivory">
-          {site.name.toUpperCase()}
+      <div className="flex items-center justify-between px-6 py-4 sm:px-8 sm:py-5">
+        <span className="text-2xl font-bold tracking-[0.1em] text-aged-ivory sm:text-3xl">
+          {site.name}
         </span>
         <button
           type="button"
           onClick={onClose}
           tabIndex={open ? 0 : -1}
           aria-label="Close menu"
-          className="flex h-11 w-11 items-center justify-center text-2xl leading-none text-aged-ivory"
+          className="flex h-11 w-11 items-center justify-center text-3xl leading-none text-aged-ivory"
         >
           &times;
         </button>
       </div>
 
-      <nav aria-label="Mobile" className="flex flex-col gap-1 px-4 pt-8 sm:px-6">
-        {nav.map((item, index) => {
-          const active =
-            item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+      <div className="flex justify-end px-6 pt-3 sm:px-8">
+        <NavList onNavigate={onClose} tabbable={open} />
+      </div>
 
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={onClose}
+      <div className="flex flex-col items-end gap-4 px-6 pt-8 sm:px-8">
+        <a
+          href={`mailto:${site.email}`}
+          tabIndex={open ? 0 : -1}
+          className="text-xs text-aged-silver underline decoration-weathered-silver underline-offset-4 hover:text-aged-ivory hover:decoration-aged-ivory"
+        >
+          {site.email}
+        </a>
+        <div className="flex gap-4">
+          {site.social.map((s) => (
+            <a
+              key={s.label}
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
               tabIndex={open ? 0 : -1}
-              aria-current={active ? "page" : undefined}
-              className={`flex items-baseline gap-3 border-b border-weathered-silver/20 py-4 text-lg ${
-                active ? "text-aged-ivory" : "text-aged-silver"
-              }`}
+              className="text-[11px] uppercase tracking-[0.15em] text-aged-silver hover:text-aged-ivory"
             >
-              <span className="text-xs text-weathered-silver">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              {item.label}
-            </Link>
-          );
-        })}
-      </nav>
+              {s.label}
+            </a>
+          ))}
+        </div>
+      </div>
     </div>,
     document.body,
   );

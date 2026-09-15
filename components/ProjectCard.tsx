@@ -6,7 +6,7 @@ import { categoryLabel, projectHref } from "@/lib/projects";
 export default function ProjectCard({
   project,
   priority,
-  aspect = "aspect-[4/5]",
+  aspect = "aspect-[3/2]",
 }: {
   project: Project;
   priority?: boolean;
@@ -20,7 +20,7 @@ export default function ProjectCard({
           alt={project.title}
           fill
           priority={priority}
-          sizes="(max-width: 768px) 100vw, 50vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
       </div>

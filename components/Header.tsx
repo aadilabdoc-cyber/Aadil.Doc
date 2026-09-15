@@ -1,13 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { nav, site } from "@/data/site";
+import { site } from "@/data/site";
+import NavList from "./NavList";
 import MobileMenu from "./MobileMenu";
 
 export default function Header() {
-  const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -29,47 +28,17 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-weathered-silver/30 bg-obsidian/95 backdrop-blur-sm">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-10">
+      <div className="flex items-center justify-between px-6 py-4 sm:px-8 sm:py-5 lg:px-12 lg:py-6 xl:px-16">
         <Link
           href="/"
-          className="text-sm tracking-[0.2em] text-aged-ivory"
+          className="text-2xl font-bold tracking-[0.1em] text-aged-ivory sm:text-3xl"
         >
-          {site.name.toUpperCase()}
+          {site.name}
         </Link>
 
-        <nav
-          aria-label="Primary"
-          className="hidden md:flex md:items-center md:gap-8"
-        >
-          {nav.map((item, index) => {
-            const active =
-              item.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(item.href);
-
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={active ? "page" : undefined}
-                className="group flex items-center gap-2 text-xs uppercase tracking-[0.15em]"
-              >
-                <span className="text-[10px] text-weathered-silver">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span
-                  className={`border-b pb-0.5 transition-colors ${
-                    active
-                      ? "border-aged-ivory text-aged-ivory"
-                      : "border-transparent text-aged-silver group-hover:border-weathered-silver group-hover:text-aged-ivory"
-                  }`}
-                >
-                  {item.label}
-                </span>
-              </Link>
-            );
-          })}
-        </nav>
+        <div className="hidden md:block">
+          <NavList />
+        </div>
 
         <button
           type="button"
@@ -77,14 +46,17 @@ export default function Header() {
           aria-expanded={open}
           aria-haspopup="dialog"
           aria-label="Open menu"
-          className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 md:hidden"
+          className="group flex items-center gap-3 text-aged-ivory md:hidden"
         >
-          <span className="block h-px w-6 bg-aged-ivory" />
-          <span className="block h-px w-6 bg-aged-ivory" />
+          <span className="text-xs uppercase tracking-[0.3em]">Menu</span>
+          <span className="flex h-11 w-11 flex-col items-center justify-center gap-1.5">
+            <span className="block h-px w-6 bg-aged-ivory transition-transform group-hover:translate-x-0.5" />
+            <span className="block h-px w-6 bg-aged-ivory transition-transform group-hover:-translate-x-0.5" />
+          </span>
         </button>
       </div>
 
-      <MobileMenu open={open} onClose={() => setOpen(false)} pathname={pathname} />
+      <MobileMenu open={open} onClose={() => setOpen(false)} />
     </header>
   );
 }

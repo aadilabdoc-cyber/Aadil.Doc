@@ -8,7 +8,7 @@ export const categoryPath: Record<ProjectCategory, string> = {
 };
 
 export const categoryLabel: Record<ProjectCategory, string> = {
-  commercial: "Commercial Works",
+  commercial: "Commissioned",
   personal: "Personal Project",
   archive: "Archive",
 };
