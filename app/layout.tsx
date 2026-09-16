@@ -28,7 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      data-theme="dark"
+      data-theme="light"
       suppressHydrationWarning
       className={`h-full antialiased ${spaceMono.variable} font-sans`}
     >
