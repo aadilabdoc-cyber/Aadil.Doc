@@ -1,17 +1,43 @@
 @import "tailwindcss";
 
 @theme {
-  --color-obsidian: #111111;
-  --color-graphite: #242424;
-  --color-charcoal: #30302f;
-  --color-weathered-silver: #5c5c59;
-  --color-aged-silver: #b7b5ae;
-  --color-aged-ivory: #e6e2d8;
-  --color-paper: #d8d4ca;
+  --color-obsidian: var(--obsidian);
+  --color-graphite: var(--graphite);
+  --color-charcoal: var(--charcoal);
+  --color-weathered-silver: var(--weathered-silver);
+  --color-aged-silver: var(--aged-silver);
+  --color-aged-ivory: var(--aged-ivory);
+  --color-paper: var(--paper);
+
+  /* Fixed — never swap with the theme. Used only by the always-dark image
+     viewer (Lightbox) so photographs keep a consistent dark surround. */
   --color-deep-shadow: #0b0b0b;
+  --color-viewer-ink: #e6e2d8;
+  --color-viewer-muted: #b7b5ae;
 
   --font-sans: var(--font-space-mono), ui-monospace, monospace;
   --font-mono: var(--font-space-mono), ui-monospace, monospace;
+}
+
+:root,
+[data-theme="dark"] {
+  --obsidian: #111111;
+  --graphite: #242424;
+  --charcoal: #30302f;
+  --weathered-silver: #5c5c59;
+  --aged-silver: #b7b5ae;
+  --aged-ivory: #e6e2d8;
+  --paper: #d8d4ca;
+}
+
+[data-theme="light"] {
+  --obsidian: #f3f0e9;
+  --graphite: #e6e0d0;
+  --charcoal: #d8d0bc;
+  --weathered-silver: #b8ae95;
+  --aged-silver: #726c5c;
+  --aged-ivory: #221f1a;
+  --paper: #4a3423;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -32,9 +58,20 @@ html {
 body {
   background-color: var(--color-obsidian);
   color: var(--color-aged-ivory);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 ::selection {
   background-color: var(--color-aged-ivory);
   color: var(--color-obsidian);
+}
+
+/* The native date picker should match the site theme even though it's
+   rendered by the OS, not by us. */
+input[type="date"] {
+  color-scheme: dark;
+}
+
+[data-theme="light"] input[type="date"] {
+  color-scheme: light;
 }

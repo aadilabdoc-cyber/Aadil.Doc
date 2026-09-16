@@ -73,7 +73,7 @@ export default function Lightbox({
         type="button"
         onClick={onClose}
         aria-label="Close"
-        className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center text-3xl leading-none text-aged-ivory sm:right-8 sm:top-8"
+        className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center text-3xl leading-none text-viewer-ink sm:right-8 sm:top-8"
       >
         &times;
       </button>
@@ -82,7 +82,7 @@ export default function Lightbox({
         type="button"
         onClick={previous}
         aria-label="Previous image"
-        className="absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center text-2xl text-aged-ivory sm:left-6"
+        className="absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center text-2xl text-viewer-ink sm:left-6"
       >
         &#8249;
       </button>
@@ -99,7 +99,7 @@ export default function Lightbox({
           priority
         />
         {image.caption && (
-          <p className="mt-3 text-center text-xs text-aged-silver">{image.caption}</p>
+          <p className="mt-3 text-center text-xs text-viewer-muted">{image.caption}</p>
         )}
       </div>
 
@@ -107,12 +107,12 @@ export default function Lightbox({
         type="button"
         onClick={next}
         aria-label="Next image"
-        className="absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center text-2xl text-aged-ivory sm:right-6"
+        className="absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center text-2xl text-viewer-ink sm:right-6"
       >
         &#8250;
       </button>
 
-      <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-aged-silver">
+      <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-viewer-muted">
         {String(index + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
       </p>
     </div>

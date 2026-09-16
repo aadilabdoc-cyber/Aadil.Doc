@@ -37,7 +37,7 @@ export default function MobileMenu({
       }`}
     >
       <div className="flex items-center justify-between px-6 py-4 sm:px-8 sm:py-5">
-        <span className="text-2xl font-bold tracking-[0.1em] text-aged-ivory sm:text-3xl">
+        <span className="text-2xl font-normal uppercase tracking-[0.1em] text-aged-ivory sm:text-3xl">
           {site.name}
         </span>
         <button

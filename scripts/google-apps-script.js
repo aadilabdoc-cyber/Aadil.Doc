@@ -24,9 +24,7 @@ const COLUMNS = [
   "Email",
   "Country",
   "Phone",
-  "Subject",
-  "Event Name",
-  "Event Venue",
+  "Event Location",
   "Event Date",
   "Event Details",
 ];
@@ -41,9 +39,7 @@ function doPost(e) {
     data.email || "",
     data.country || "",
     data.phone || "",
-    data.subject || "",
-    data.eventName || "",
-    data.eventVenue || "",
+    data.eventLocation || "",
     data.eventDate || "",
     data.eventDetails || "",
   ]);

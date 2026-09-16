@@ -1,6 +1,11 @@
 import Link from "next/link";
-import Image from "next/image";
 import { nav, site } from "@/data/site";
+import { FacebookIcon, InstagramIcon } from "./icons/SocialIcons";
+
+const socialIcons: Record<string, typeof FacebookIcon> = {
+  Facebook: FacebookIcon,
+  Instagram: InstagramIcon,
+};
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -44,23 +49,20 @@ export default function Footer() {
               Follow
             </span>
             <div className="flex gap-4">
-              {site.social.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={s.label}
-                >
-                  <Image
-                    src={s.icon}
-                    alt=""
-                    width={16}
-                    height={16}
-                    className="opacity-60 transition-opacity hover:opacity-100"
-                  />
-                </a>
-              ))}
+              {site.social.map((s) => {
+                const Icon = socialIcons[s.label];
+                return (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.label}
+                  >
+                    <Icon className="h-4 w-4 text-aged-silver transition-colors hover:text-aged-ivory" />
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>

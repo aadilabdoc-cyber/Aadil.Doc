@@ -24,7 +24,9 @@
 }
 
 .PhoneInputCountrySelect option {
-  color: var(--color-obsidian);
+  /* Fixed, not themed — the native dropdown always has a light OS-drawn
+     background regardless of site theme, so its text must stay dark. */
+  color: #1a1a1a;
 }
 
 .PhoneInputCountrySelectArrow {

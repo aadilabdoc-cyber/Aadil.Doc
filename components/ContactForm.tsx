@@ -16,31 +16,19 @@ type FormValues = {
   email: string;
   country: string;
   phone: string;
-  subject: string;
-  eventName: string;
-  eventVenue: string;
+  eventLocation: string;
   eventDate: string;
   eventDetails: string;
 };
 
 type FormErrors = Partial<Record<keyof FormValues, string>>;
 
-const subjects = [
-  "General Inquiry",
-  "Commercial Booking",
-  "Personal Project",
-  "Print Inquiry",
-  "Other",
-];
-
 const initialValues: FormValues = {
   name: "",
   email: "",
   country: "India",
   phone: "",
-  subject: "",
-  eventName: "",
-  eventVenue: "",
+  eventLocation: "",
   eventDate: "",
   eventDetails: "",
 };
@@ -64,13 +52,8 @@ function validate(values: FormValues): FormErrors {
     errors.phone = "Please enter a valid phone number.";
   }
 
-  if (!values.subject) errors.subject = "Please choose a subject.";
-
-  if (!values.eventName.trim())
-    errors.eventName = "Please enter the event name.";
-
-  if (!values.eventVenue.trim())
-    errors.eventVenue = "Please enter the event venue.";
+  if (!values.eventLocation.trim())
+    errors.eventLocation = "Please enter the event location.";
 
   if (!values.eventDate) errors.eventDate = "Please choose the event date.";
 
@@ -285,40 +268,6 @@ export default function ContactForm() {
         </div>
       </div>
 
-      <div>
-        <label
-          htmlFor={`${formId}-subject`}
-          className="block text-xs uppercase tracking-[0.15em] text-aged-silver"
-        >
-          Subject *
-        </label>
-        <select
-          id={`${formId}-subject`}
-          value={values.subject}
-          onChange={handleChange("subject")}
-          aria-invalid={Boolean(errors.subject)}
-          aria-describedby={
-            errors.subject ? `${formId}-subject-error` : undefined
-          }
-          className="mt-2 w-full border-b border-weathered-silver bg-obsidian py-2 text-aged-ivory outline-none focus:border-aged-ivory"
-        >
-          <option value="">Choose one</option>
-          {subjects.map((subject) => (
-            <option key={subject} value={subject}>
-              {subject}
-            </option>
-          ))}
-        </select>
-        {errors.subject && (
-          <p
-            id={`${formId}-subject-error`}
-            className="mt-1 text-xs text-rose-600"
-          >
-            {errors.subject}
-          </p>
-        )}
-      </div>
-
       <div className="border-t border-weathered-silver/20 pt-6">
         <p className="text-xs uppercase tracking-[0.15em] text-weathered-silver">
           Event Details
@@ -327,61 +276,33 @@ export default function ContactForm() {
         <div className="mt-4 grid gap-6 sm:grid-cols-2">
           <div>
             <label
-              htmlFor={`${formId}-event-name`}
+              htmlFor={`${formId}-event-location`}
               className="block text-xs uppercase tracking-[0.15em] text-aged-silver"
             >
-              Event Name *
+              Event Location *
             </label>
             <input
-              id={`${formId}-event-name`}
+              id={`${formId}-event-location`}
               type="text"
-              value={values.eventName}
-              onChange={handleChange("eventName")}
-              aria-invalid={Boolean(errors.eventName)}
+              value={values.eventLocation}
+              onChange={handleChange("eventLocation")}
+              aria-invalid={Boolean(errors.eventLocation)}
               aria-describedby={
-                errors.eventName ? `${formId}-event-name-error` : undefined
+                errors.eventLocation ? `${formId}-event-location-error` : undefined
               }
               className="mt-2 w-full border-b border-weathered-silver bg-transparent py-2 text-aged-ivory outline-none focus:border-aged-ivory"
             />
-            {errors.eventName && (
+            {errors.eventLocation && (
               <p
-                id={`${formId}-event-name-error`}
+                id={`${formId}-event-location-error`}
                 className="mt-1 text-xs text-rose-600"
               >
-                {errors.eventName}
+                {errors.eventLocation}
               </p>
             )}
           </div>
 
           <div>
-            <label
-              htmlFor={`${formId}-event-venue`}
-              className="block text-xs uppercase tracking-[0.15em] text-aged-silver"
-            >
-              Event Venue *
-            </label>
-            <input
-              id={`${formId}-event-venue`}
-              type="text"
-              value={values.eventVenue}
-              onChange={handleChange("eventVenue")}
-              aria-invalid={Boolean(errors.eventVenue)}
-              aria-describedby={
-                errors.eventVenue ? `${formId}-event-venue-error` : undefined
-              }
-              className="mt-2 w-full border-b border-weathered-silver bg-transparent py-2 text-aged-ivory outline-none focus:border-aged-ivory"
-            />
-            {errors.eventVenue && (
-              <p
-                id={`${formId}-event-venue-error`}
-                className="mt-1 text-xs text-rose-600"
-              >
-                {errors.eventVenue}
-              </p>
-            )}
-          </div>
-
-          <div className="sm:col-span-2 sm:max-w-xs">
             <label
               htmlFor={`${formId}-event-date`}
               className="block text-xs uppercase tracking-[0.15em] text-aged-silver"
@@ -397,7 +318,7 @@ export default function ContactForm() {
               aria-describedby={
                 errors.eventDate ? `${formId}-event-date-error` : undefined
               }
-              className="mt-2 w-full scheme-dark border-b border-weathered-silver bg-obsidian py-2 text-aged-ivory outline-none focus:border-aged-ivory"
+              className="mt-2 w-full border-b border-weathered-silver bg-obsidian py-2 text-aged-ivory outline-none focus:border-aged-ivory"
             />
             {errors.eventDate && (
               <p

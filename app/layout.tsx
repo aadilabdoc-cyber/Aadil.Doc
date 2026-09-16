@@ -26,7 +26,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`h-full antialiased ${spaceMono.variable} font-sans`}>
+    <html
+      lang="en"
+      data-theme="dark"
+      suppressHydrationWarning
+      className={`h-full antialiased ${spaceMono.variable} font-sans`}
+    >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              '(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}})()',
+          }}
+        />
+      </head>
       <body className="flex min-h-full flex-col bg-obsidian text-aged-ivory">
         <Header />
         <main className="flex-1">{children}</main>

@@ -13,7 +13,7 @@ export const nav: NavItem[] = [
 export const site = {
   name: "Aadil.Doc",
   photographer: "Aadil",
-  email: "hello@aadildoc.com",
+  email: "aadilab.doc@gmail.com",
   description:
     "Aadil.Doc is the photographic archive and portfolio of Aadil, documenting weddings, people, and quiet stories.",
   footerStatement:
