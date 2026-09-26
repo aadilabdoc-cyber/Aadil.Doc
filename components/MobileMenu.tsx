@@ -37,7 +37,7 @@ export default function MobileMenu({
       aria-modal="true"
       aria-label="Site navigation"
       aria-hidden={!open}
-      className={`fixed inset-0 z-50 bg-obsidian transition-opacity duration-300 ${
+      className={`fixed inset-0 z-70 bg-obsidian transition-opacity duration-300 ${
         open ? "opacity-100" : "pointer-events-none opacity-0"
       }`}
     >
