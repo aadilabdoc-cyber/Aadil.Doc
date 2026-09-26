@@ -20,6 +20,16 @@
 }
 
 :root,
+[data-theme="light"] {
+  --obsidian: #fff;
+  --graphite: #e6e0d0;
+  --charcoal: #d8d0bc;
+  --weathered-silver: #b8ae95;
+  --aged-silver: #726c5c;
+  --aged-ivory: #221f1a;
+  --paper: #4a3423;
+}
+
 [data-theme="dark"] {
   --obsidian: #111111;
   --graphite: #242424;
@@ -28,16 +38,6 @@
   --aged-silver: #b7b5ae;
   --aged-ivory: #e6e2d8;
   --paper: #d8d4ca;
-}
-
-[data-theme="light"] {
-  --obsidian: #f3f0e9;
-  --graphite: #e6e0d0;
-  --charcoal: #d8d0bc;
-  --weathered-silver: #b8ae95;
-  --aged-silver: #726c5c;
-  --aged-ivory: #221f1a;
-  --paper: #4a3423;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -58,7 +58,9 @@ html {
 body {
   background-color: var(--color-obsidian);
   color: var(--color-aged-ivory);
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 ::selection {
@@ -69,9 +71,9 @@ body {
 /* The native date picker should match the site theme even though it's
    rendered by the OS, not by us. */
 input[type="date"] {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
-[data-theme="light"] input[type="date"] {
-  color-scheme: light;
+[data-theme="dark"] input[type="date"] {
+  color-scheme: dark;
 }

@@ -2,13 +2,15 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { Project } from "@/types/project";
+import type { DiscoveredImage } from "@/lib/imageFiles";
+import Spinner from "./Spinner";
 
-const AUTOPLAY_MS = 6000;
+const AUTOPLAY_MS = 3000;
 
-export default function HeroCarousel({ slides }: { slides: Project[] }) {
+export default function HeroCarousel({ slides }: { slides: DiscoveredImage[] }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [loadedSlides, setLoadedSlides] = useState<Set<number>>(new Set());
   const touchStartX = useRef<number | null>(null);
   const count = slides.length;
 
@@ -48,7 +50,7 @@ export default function HeroCarousel({ slides }: { slides: Project[] }) {
     <section
       aria-roledescription="carousel"
       aria-label="Featured work"
-      className="relative h-[85vh] min-h-130 w-full overflow-hidden bg-graphite"
+      className="relative h-[calc((100dvh-var(--header-height,4.75rem))*0.42)] w-full overflow-hidden bg-graphite sm:h-[85vh] sm:min-h-130"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
@@ -66,22 +68,30 @@ export default function HeroCarousel({ slides }: { slides: Project[] }) {
         touchStartX.current = null;
       }}
     >
-      {slides.map((project, i) => (
+      {slides.map((slide, i) => (
         <div
-          key={project.slug}
+          key={slide.src}
           aria-hidden={i !== index}
           className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
             i === index ? "opacity-100" : "pointer-events-none opacity-0"
           }`}
         >
           <Image
-            src={project.coverImage}
+            src={slide.src}
             alt=""
             fill
             priority={i === 0}
             sizes="100vw"
             className="object-cover"
+            onLoad={() =>
+              setLoadedSlides((prev) => new Set(prev).add(i))
+            }
           />
+          {!loadedSlides.has(i) && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Spinner />
+            </div>
+          )}
         </div>
       ))}
 

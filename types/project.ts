@@ -1,18 +1,14 @@
 export type ProjectCategory = "commercial" | "personal" | "archive";
 
+/** Fully resolved project — text (from project.json) merged with its images. */
 export interface Project {
   slug: string;
-  title: string;
   category: ProjectCategory;
-  year: string;
-  location?: string;
+  title: string;
   description: string;
-  note?: string;
   coverImage: string;
   coverWidth: number;
   coverHeight: number;
   images: string[];
   imageDimensions: Array<{ width: number; height: number }>;
-  captions?: string[];
-  featured?: boolean;
 }

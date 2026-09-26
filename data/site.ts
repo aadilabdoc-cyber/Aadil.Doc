@@ -4,8 +4,8 @@ export type NavItem = {
 };
 
 export const nav: NavItem[] = [
-  { label: "Personal Project", href: "/personal-project" },
-  { label: "Commissioned", href: "/commercial-works" },
+  { label: "Weddings", href: "/personal-project" },
+  // { label: "Commissioned", href: "/commercial-works" },
   { label: "Archive", href: "/archives" },
   { label: "Contact", href: "/contacts" },
 ];
@@ -14,13 +14,14 @@ export const site = {
   name: "Aadil.Doc",
   photographer: "Aadil",
   email: "aadilab.doc@gmail.com",
+  phone: "+91 8891597074",
   description:
     "Aadil.Doc is the photographic archive and portfolio of Aadil, documenting weddings, people, and quiet stories.",
   footerStatement:
     "A record of light, patience, and the moments that pass quietly between the ones we notice.",
   social: [
-    { label: "Instagram", href: "https://instagram.com", icon: "/insta.svg" },
-    { label: "Facebook", href: "https://facebook.com", icon: "/facebook.svg" },
+    { label: "Instagram", href: "https://www.instagram.com/aadil.ab/" },
+    { label: "WhatsApp", href: "https://wa.me/918891597074" },
   ],
   about: {
     label: "About the Author",

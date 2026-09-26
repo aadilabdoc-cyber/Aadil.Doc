@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function ContactsPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-4 text-center sm:px-6 lg:px-10">
-      <SectionHeading eyebrow="Get in Touch" title="Contact" />
+      <SectionHeading eyebrow="" title="Contact" />
       <p className="mx-auto mt-6 max-w-xl text-sm leading-relaxed text-aged-silver">
         For commissions, print inquiries, or simply to say hello —{" "}
         {site.photographer} reads every message.

@@ -1,37 +1,42 @@
-import { projects } from "@/data/projects";
 import type { Project, ProjectCategory } from "@/types/project";
+import { allCategories, categoryLabel, categoryPath, projectHref } from "./categories";
+import { listProjectSlugs, readProjectFolder, type ProjectFolder } from "./projectData";
 
-export const categoryPath: Record<ProjectCategory, string> = {
-  commercial: "commercial-works",
-  personal: "personal-project",
-  archive: "archives",
-};
+export { categoryPath, categoryLabel, projectHref };
 
-export const categoryLabel: Record<ProjectCategory, string> = {
-  commercial: "Commissioned",
-  personal: "Personal Project",
-  archive: "Archive",
-};
-
-export function projectHref(project: Pick<Project, "category" | "slug">): string {
-  return `/${categoryPath[project.category]}/${project.slug}`;
-}
-
-export function getAllProjects(): Project[] {
-  return projects;
+function toProject(category: ProjectCategory, folder: ProjectFolder): Project {
+  return {
+    slug: folder.slug,
+    category,
+    title: folder.title,
+    description: folder.description,
+    coverImage: folder.cover.src,
+    coverWidth: folder.cover.width,
+    coverHeight: folder.cover.height,
+    images: folder.gallery.map((image) => image.src),
+    imageDimensions: folder.gallery.map(({ width, height }) => ({ width, height })),
+  };
 }
 
 export function getProjectsByCategory(category: ProjectCategory): Project[] {
-  return projects.filter((project) => project.category === category);
+  // listProjectSlugs is already alphabetical by folder name — with no
+  // date field left in project.json, that's the deterministic order.
+  return listProjectSlugs(category)
+    .map((slug) => readProjectFolder(category, slug))
+    .filter((folder): folder is ProjectFolder => folder !== null)
+    .map((folder) => toProject(category, folder));
+}
+
+export function getAllProjects(): Project[] {
+  return allCategories.flatMap((category) => getProjectsByCategory(category));
 }
 
 export function getProjectBySlug(
   category: ProjectCategory,
   slug: string,
 ): Project | undefined {
-  return projects.find(
-    (project) => project.category === category && project.slug === slug,
-  );
+  const folder = readProjectFolder(category, slug);
+  return folder ? toProject(category, folder) : undefined;
 }
 
 export function getAdjacentProjects(
@@ -49,8 +54,4 @@ export function getAdjacentProjects(
   const next = index < list.length - 1 ? list[index + 1] : null;
 
   return { previous, next };
-}
-
-export function getFeaturedProjects(): Project[] {
-  return projects.filter((project) => project.featured);
 }

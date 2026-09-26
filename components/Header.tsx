@@ -1,14 +1,36 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { site } from "@/data/site";
 import NavList from "./NavList";
 import MobileMenu from "./MobileMenu";
 import ThemeToggle from "./ThemeToggle";
+import { CONTENT_PADDING_X } from "@/lib/layout";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+
+  // Publish the header's real rendered height as a CSS variable so other
+  // sections (the hero) can size themselves against "the screen minus the
+  // header" instead of a guessed, hardcoded height.
+  useEffect(() => {
+    const node = headerRef.current;
+    if (!node) return;
+
+    const publishHeight = () => {
+      document.documentElement.style.setProperty(
+        "--header-height",
+        `${node.offsetHeight}px`,
+      );
+    };
+
+    publishHeight();
+    const observer = new ResizeObserver(publishHeight);
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -28,17 +50,22 @@ export default function Header() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-weathered-silver/30 bg-obsidian/95 backdrop-blur-sm">
-      <div className="flex items-center justify-between px-6 py-4 sm:px-8 sm:py-5 lg:px-12 lg:py-6 xl:px-16">
+    <header
+      ref={headerRef}
+      className="sticky top-0 z-50 border-b border-weathered-silver/30 bg-obsidian/95 backdrop-blur-sm"
+    >
+      <div
+        className={`flex items-center justify-between py-4 sm:py-5 lg:py-6 ${CONTENT_PADDING_X}`}
+      >
         <Link
           href="/"
-          className="text-2xl font-normal uppercase tracking-widest text-aged-ivory sm:text-3xl"
+          className="text-1xl font-normal uppercase tracking-widest text-aged-ivory sm:text-2xl"
         >
           {site.name}
         </Link>
 
-        <div className="flex items-center gap-6 sm:gap-8">
-          {/* <ThemeToggle /> */}
+        <div className="flex items-center gap-4 sm:gap-6">
+          <ThemeToggle />
 
           <div className="hidden md:block">
             <NavList />
@@ -52,7 +79,7 @@ export default function Header() {
             aria-label="Open menu"
             className="group flex items-center gap-3 text-aged-ivory md:hidden"
           >
-            <span className="text-xs uppercase tracking-[0.3em]">Menu</span>
+            {/* <span className="text-xs uppercase tracking-[0.3em]">Menu</span> */}
             <span className="flex h-11 w-11 flex-col items-center justify-center gap-1.5">
               <span className="block h-px w-6 bg-aged-ivory transition-transform group-hover:translate-x-0.5" />
               <span className="block h-px w-6 bg-aged-ivory transition-transform group-hover:-translate-x-0.5" />

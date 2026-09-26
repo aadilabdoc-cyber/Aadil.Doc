@@ -110,18 +110,24 @@ export default function ContactForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
-      const result = (await response.json()) as { success: boolean; error?: string };
+      const result = (await response.json()) as {
+        success: boolean;
+        error?: string;
+      };
 
       if (!response.ok || !result.success) {
         setSubmitError(
-          result.error ?? "Something went wrong sending your enquiry. Please try again.",
+          result.error ??
+            "Something went wrong sending your enquiry. Please try again.",
         );
         return;
       }
 
       setSubmitted(true);
     } catch {
-      setSubmitError("Something went wrong sending your enquiry. Please try again.");
+      setSubmitError(
+        "Something went wrong sending your enquiry. Please try again.",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -137,8 +143,8 @@ export default function ContactForm() {
           Thank you, {values.name.split(" ")[0]}.
         </p>
         <p className="mt-3">
-          Your enquiry has been sent — {site.photographer} will get back to
-          you shortly. You can also reach out directly at{" "}
+          Your enquiry has been sent — {site.photographer} will get back to you
+          shortly. You can also reach out directly at{" "}
           <a
             href={`mailto:${site.email}`}
             className="text-aged-ivory underline decoration-weathered-silver underline-offset-4"
@@ -288,7 +294,9 @@ export default function ContactForm() {
               onChange={handleChange("eventLocation")}
               aria-invalid={Boolean(errors.eventLocation)}
               aria-describedby={
-                errors.eventLocation ? `${formId}-event-location-error` : undefined
+                errors.eventLocation
+                  ? `${formId}-event-location-error`
+                  : undefined
               }
               className="mt-2 w-full border-b border-weathered-silver bg-transparent py-2 text-aged-ivory outline-none focus:border-aged-ivory"
             />
@@ -369,7 +377,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="self-start border border-aged-ivory px-6 py-3 text-xs uppercase tracking-[0.2em] text-aged-ivory transition-colors hover:bg-aged-ivory hover:text-obsidian disabled:cursor-not-allowed disabled:opacity-50"
+        className="self-center border border-aged-ivory px-6 py-3 text-xs uppercase tracking-[0.2em] text-aged-ivory transition-colors hover:bg-aged-ivory hover:text-obsidian disabled:cursor-not-allowed disabled:opacity-50"
       >
         {submitting ? "Sending…" : "Send Enquiry"}
       </button>

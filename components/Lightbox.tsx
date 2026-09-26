@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import Spinner from "./Spinner";
 
 export type LightboxImage = {
   src: string;
@@ -49,13 +50,15 @@ export default function Lightbox({
   }, [next, previous, onClose]);
 
   const image = images[index];
+  const [loadedSrc, setLoadedSrc] = useState<string | null>(null);
+  const loaded = loadedSrc === image.src;
 
   return (
     <div
       role="dialog"
       aria-modal="true"
       aria-label="Image viewer"
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-deep-shadow/95 p-4 sm:p-10"
+      className="fixed inset-0 z-60 flex items-center justify-center bg-deep-shadow/95 p-4 sm:p-10"
       onTouchStart={(event) => {
         touchStartX.current = event.touches[0].clientX;
       }}
@@ -97,7 +100,13 @@ export default function Lightbox({
           sizes="100vw"
           className="max-h-[80vh] w-auto max-w-full object-contain"
           priority
+          onLoad={() => setLoadedSrc(image.src)}
         />
+        {!loaded && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Spinner />
+          </div>
+        )}
         {image.caption && (
           <p className="mt-3 text-center text-xs text-viewer-muted">{image.caption}</p>
         )}

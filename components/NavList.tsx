@@ -7,15 +7,20 @@ import { nav } from "@/data/site";
 export default function NavList({
   onNavigate,
   tabbable = true,
+  isMobile = false,
 }: {
   onNavigate?: () => void;
   tabbable?: boolean;
+  isMobile?: boolean;
 }) {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="Primary" className="flex flex-col items-end gap-1 sm:gap-1.5">
-      {nav.map((item, index) => {
+    <nav
+      aria-label="Primary"
+      className={`flex items-end gap-4 sm:gap-4 xs:flex-col ${isMobile ? "flex-col" : ""}`}
+    >
+      {nav.map((item) => {
         const active =
           item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
 
@@ -37,9 +42,9 @@ export default function NavList({
             >
               {item.label}
             </span>
-            <span className="text-[10px] text-weathered-silver">
+            {/* <span className="text-[10px] text-weathered-silver">
               {String(index + 1).padStart(2, "0")}
-            </span>
+            </span> */}
           </Link>
         );
       })}
