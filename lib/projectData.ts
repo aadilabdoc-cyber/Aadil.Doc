@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { ProjectCategory } from "@/types/project";
+import type { ProjectCategory, WeddingType } from "@/types/project";
 import { categoryPath } from "./categories";
 import {
   isSupportedImage,
@@ -14,11 +14,14 @@ import {
 const COVER_FILENAME_HINT = /cover|caption/i;
 
 const PROJECT_JSON_FILENAME = "project.json";
+const WEDDING_TYPES: WeddingType[] = ["project", "commissioned"];
 
 export type ProjectFolder = {
   slug: string;
   title: string;
   description: string;
+  order?: number;
+  weddingType?: WeddingType;
   cover: DiscoveredImage;
   gallery: DiscoveredImage[];
 };
@@ -27,6 +30,8 @@ type ProjectJson = {
   title?: string;
   description?: string;
   captionImage?: string;
+  order?: number;
+  type?: WeddingType;
 };
 
 function imagesRoot(): string {
@@ -60,6 +65,8 @@ function readProjectJson(dir: string): ProjectJson {
         typeof parsed.captionImage === "string"
           ? parsed.captionImage
           : undefined,
+      order: typeof parsed.order === "number" ? parsed.order : undefined,
+      type: WEDDING_TYPES.includes(parsed.type) ? parsed.type : undefined,
     };
   } catch (error) {
     console.warn(
@@ -71,7 +78,7 @@ function readProjectJson(dir: string): ProjectJson {
 
 /**
  * Lists every project folder (slug) that exists under a category, e.g.
- * public/images/commercial-works/*. Missing category folders just mean no
+ * public/images/weddings/*. Missing category folders just mean no
  * projects yet, not an error.
  */
 export function listProjectSlugs(category: ProjectCategory): string[] {
@@ -90,9 +97,10 @@ export function listProjectSlugs(category: ProjectCategory): string[] {
 
 /**
  * Reads public/images/<category>/<slug>/ in full: its project.json (title,
- * description, captionImage — all optional) plus its image files. Returns
- * null (and logs why) if the folder is missing or has no usable images, so
- * callers can skip the project instead of crashing the build.
+ * description, captionImage, order, type — all optional) plus its image
+ * files. Returns null (and logs why) if the folder is missing or has no
+ * usable images, so callers can skip the project instead of crashing the
+ * build.
  */
 export function readProjectFolder(
   category: ProjectCategory,
@@ -182,6 +190,8 @@ export function readProjectFolder(
     slug,
     title: meta.title ?? humanizeSlug(slug),
     description: meta.description ?? "",
+    order: meta.order,
+    weddingType: meta.type,
     cover,
     // A folder with only a cover image still needs something to show in
     // the gallery, so fall back to just the cover rather than an empty grid.

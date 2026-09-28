@@ -98,7 +98,9 @@ export default function Lightbox({
           width={image.width}
           height={image.height}
           sizes="100vw"
-          className="max-h-[80vh] w-auto max-w-full object-contain"
+          className={`max-h-[80vh] w-auto max-w-full object-contain transition-opacity duration-300 ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
           priority
           onLoad={() => setLoadedSrc(image.src)}
         />

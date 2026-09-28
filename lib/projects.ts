@@ -8,8 +8,10 @@ function toProject(category: ProjectCategory, folder: ProjectFolder): Project {
   return {
     slug: folder.slug,
     category,
+    weddingType: folder.weddingType,
     title: folder.title,
     description: folder.description,
+    order: folder.order,
     coverImage: folder.cover.src,
     coverWidth: folder.cover.width,
     coverHeight: folder.cover.height,
@@ -18,13 +20,24 @@ function toProject(category: ProjectCategory, folder: ProjectFolder): Project {
   };
 }
 
+// Projects with an explicit order (set in project.json) sort by it first,
+// ascending. Everything else falls back to alphabetical by slug, after all
+// ordered projects — so setting an order is opt-in, not required.
+function compareProjects(a: Project, b: Project): number {
+  const aHasOrder = typeof a.order === "number";
+  const bHasOrder = typeof b.order === "number";
+  if (aHasOrder && bHasOrder) return a.order! - b.order!;
+  if (aHasOrder) return -1;
+  if (bHasOrder) return 1;
+  return a.slug.localeCompare(b.slug);
+}
+
 export function getProjectsByCategory(category: ProjectCategory): Project[] {
-  // listProjectSlugs is already alphabetical by folder name — with no
-  // date field left in project.json, that's the deterministic order.
   return listProjectSlugs(category)
     .map((slug) => readProjectFolder(category, slug))
     .filter((folder): folder is ProjectFolder => folder !== null)
-    .map((folder) => toProject(category, folder));
+    .map((folder) => toProject(category, folder))
+    .sort(compareProjects);
 }
 
 export function getAllProjects(): Project[] {

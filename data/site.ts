@@ -4,8 +4,7 @@ export type NavItem = {
 };
 
 export const nav: NavItem[] = [
-  { label: "Weddings", href: "/personal-project" },
-  // { label: "Commissioned", href: "/commercial-works" },
+  { label: "Weddings", href: "/weddings" },
   { label: "Archive", href: "/archives" },
   { label: "Contact", href: "/contacts" },
 ];

@@ -31,12 +31,10 @@ export default function ProjectDetail({
 
       <header className="mt-8 max-w-3xl">
         <p className="text-xs uppercase tracking-[0.2em] text-weathered-silver">
-          {/* {project.year} */}
-          {/* {project.location ? ` — ${project.location}` : ""} */}
-          {project.category === "personal"
-            ? "Personal Project"
-            : project.category === "commercial"
-              ? "Commissioned"
+          {project.weddingType === "commissioned"
+            ? "Commissioned"
+            : project.weddingType === "project"
+              ? "Project"
               : ""}
         </p>
         <h1 className="mt-3 text-3xl font-bold text-aged-ivory sm:text-4xl">

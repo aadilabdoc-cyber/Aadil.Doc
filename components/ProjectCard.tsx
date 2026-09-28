@@ -36,7 +36,18 @@ export default function ProjectCard({
           </div>
         )}
       </div>
-      <h3 className="mt-2 text-base text-aged-ivory">{project.title}</h3>
+      <div className="flex space-between items-center justify-between">
+        <h3 className={`text-base text-aged-ivory`}>{project.title}</h3>
+        <span>
+          {project.weddingType && (
+            <p className="text-xs uppercase tracking-[0.125em] text-aged-silver">
+              {project.weddingType === "commissioned"
+                ? "Commissioned"
+                : "Project"}
+            </p>
+          )}
+        </span>
+      </div>
     </Link>
   );
 }

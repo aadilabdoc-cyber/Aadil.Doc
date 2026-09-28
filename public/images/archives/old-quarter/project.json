@@ -1,5 +1,6 @@
 {
   "title": "Old Quarter",
   "description": "An index of the old trading quarter, made before much of it was restored for tourism.",
-  "captionImage": "cover.jpg"
+  "captionImage": "cover.jpg",
+  "order": 1
 }
